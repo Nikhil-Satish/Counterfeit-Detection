@@ -8,9 +8,9 @@ contract DetectFake {
         string brand;
         string model;
         string description;
-        string manufactuerName;
-        string manufactuerLocation;
-        string manufactuerTimestamp;
+        string manufacturerName;
+        string manufacturerLocation;
+        string manufacturerTimestamp;
         string retailer;
         string[] customers;
     }
@@ -46,22 +46,22 @@ contract DetectFake {
     }
 */
     // Function to create a new code for the product
-    function makeProduct(string memory _code, string memory _brand, string memory _model, uint _status, string memory _description, string memory _manufactuerName, string memory _manufactuerLocation) public payable returns (uint) {
+    function makeProduct(string memory _code, string memory _brand, string memory _model, uint _status, string memory _description, string memory _manufacturerName, string memory _manufacturerLocation) public payable returns (uint) {
         product memory newCode;
         newCode.brand = _brand;
         newCode.model = _model;
         newCode.status = _status;
         newCode.description = _description;
-        newCode.manufactuerName = _manufactuerName;
-        newCode.manufactuerLocation = _manufactuerLocation;
-        // newCode.manufactuerTimestamp = _manufactuerTimestamp;
+        newCode.manufacturerName = _manufacturerName;
+        newCode.manufacturerLocation = _manufacturerLocation;
+        // newCode.manufacturerTimestamp = _manufacturerTimestamp;
         productList[_code] = newCode;
         return 1;
     }
 
     // Function for showing product details if the person scanning the product is not the owner
     function getNotOwnedCodeDetails(string memory _code) public view returns (string memory, string memory, uint, string memory, string memory, string memory, string memory) {
-        return (productList[_code].brand, productList[_code].model, productList[_code].status, productList[_code].description, productList[_code].manufactuerName, productList[_code].manufactuerLocation, productList[_code].manufactuerTimestamp);
+        return (productList[_code].brand, productList[_code].model, productList[_code].status, productList[_code].description, productList[_code].manufacturerName, productList[_code].manufacturerLocation, productList[_code].manufacturerTimestamp);
     }
 
     // Function for showing product details if the person scanning the product is the owner
