@@ -7,23 +7,23 @@ import QrReader from 'react-qr-scanner'
 import Manufacturer from "./Manufacturer";
 import QRScanner from "./QRScanner";
 
-const web3 = new Web3(Web3.givenProvider);
-const contractAddress = '0x49AAcAF2e539eFB34FAFAA2C9c7abDFd91235a91'; // Replace with your contract address
-const contract = new web3.eth.Contract(DetectFake, contractAddress);
+// const web3 = new Web3(Web3.givenProvider);
+// const contractAddress = '0x49AAcAF2e539eFB34FAFAA2C9c7abDFd91235a91'; // Replace with your contract address
+// const contract = new web3.eth.Contract(DetectFake, contractAddress);
 
 const App = () =>{
-  const [productId, setProductId] = useState('');
-  const [data, setData] = useState('');
-    const handleScan = (data) => {
-        if (data) {
-          setData(data);
-          console.log(data);
-        }
-    }
+  // const [productId, setProductId] = useState('');
+  // const [data, setData] = useState('');
+  //   const handleScan = (data) => {
+  //       if (data) {
+  //         setData(data);
+  //         console.log(data);
+  //       }
+  //   }
     
-    const handleError = (error) => {
-        console.error(error);
-    }
+  //   const handleError = (error) => {
+  //       console.error(error);
+  //   }
 
   return (
       <div>
