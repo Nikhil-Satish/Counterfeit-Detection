@@ -21,7 +21,7 @@ contract Trial{
     function giveString(string memory _name) public view returns (uint, string memory){
         return (map[_name], "hi");
     }
-    function dummy1() public returns(uint){
+    function dummy1() public pure returns(uint){
         return 2;
     }
     function dummy2() public payable returns(uint){

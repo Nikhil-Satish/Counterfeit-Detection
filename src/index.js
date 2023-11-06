@@ -18,7 +18,7 @@ root.render(
           <Route exact path="/manufacturer" element={<Manufacturer />} />
           <Route exact path="/retailer" element={<Retailer />} />
         </Route> */}
-        <Route exact path="/" element={<Manufacturer />} ></Route>
+        <Route exact path="/" element={<Retailer />} ></Route>
         <Route exact path="/manufacturer" element={<Manufacturer />} ></Route>
         <Route exact path="/retailer" element={<Retailer />} ></Route>
       </Routes>

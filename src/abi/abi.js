@@ -112,8 +112,9 @@ export const DetectFake = [
         "type": "uint256"
       }
     ],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "stateMutability": "pure",
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],

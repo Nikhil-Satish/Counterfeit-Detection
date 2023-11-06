@@ -7,7 +7,7 @@ import getWeb3 from "./getWeb3";
 
 const Retailer = () =>{
     const [web3, setWeb3] = useState(null);
-    const contractAddress = '0x54d06303d5da477517099E84692D78FA88cC579F'
+    const contractAddress = '0xab430972a7859f96a0b20f9699cfdedeb056e2cb'
     // const contractAddress = '0xB8D59839824C9169Ef072442d1b88dFcE39Ec39b'
     const [contract, setContract] = useState(null);
     const [accounts, setAccounts] = useState(null);
@@ -36,7 +36,7 @@ const Retailer = () =>{
         // const res = await contract.methods.getResult(3,5).call();
         // const res = await contract.methods.getResult(2,3).send({ from:accounts[0] , gas: 1000000 });
         // console.log(res);
-        const val1 = await contract.methods.dummy2().send({from:accounts[0]})
+        const val1 = await contract.methods.dummy2().send({from:accounts[0], gas: 1000000})
         console.log(val1);
         // setTry1(res);
 
@@ -45,15 +45,21 @@ const Retailer = () =>{
         //     gas: '21000', // You can set the gas limit here
         //     gasPrice: web3.utils.toWei('30', 'gwei')
         // });
-        // const just = await contract.methods.modString("abc").send({from:accounts[0], value: 1 });
+        // const just = await contract.methods.modString("abc").send({from:accounts[0], gas: 1000000 });
         // console.log(just);
         // setTry2(just);
-        // const one = await contract.methods.giveString("xyz").call();
+        // const one = await contract.methods.giveString("abc").call();
         // console.log(one);
         // setTry3(one[0]);
     }
-    const makeP = async() =>{
+    const check = async() =>{
         // const some = await contract.methods.makeProduct("1234", "X", "Y", 3, "D", "MN", "L").call();
+        // const sum = await contract.methods.getResult(2,3).call({from:accounts[0]});
+        // console.log(sum);
+        const x = await contract.methods.dummy1().call();
+        console.log(x);
+        // const sum = await contract.sum.call().call();
+        // console.log(sum);
     }
     const [hash, setHash] = useState('');
     const handleScan = async(data) => {
@@ -84,6 +90,7 @@ const Retailer = () =>{
             } */}
             {/* <button onClick={makeP} >Make</button> */}
             <button onClick={trial} >Get</button>
+            <button onClick={check} >Check</button>
             {/* <p>{try1}</p>
             <p>{try2}</p>
             <p>{try3}</p> */}
