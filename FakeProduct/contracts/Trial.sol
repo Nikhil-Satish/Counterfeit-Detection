@@ -7,24 +7,24 @@ contract Trial{
     uint public sum = 2;
     mapping(string => uint) public map;
     mapping(uint => string) check;
-    // check public ch = check("Nik");
-    // check[2] = "NIH";
-    // map["nik"] = 3;
     function getResult(uint num1, uint num2) public payable returns(uint){
         sum=num1+num2;
         return sum;
     }
-    function modString(string memory _name) public returns (uint){
+    function modString(string memory _name) public payable{
         map[_name] = sum;
+    }
+    function getMapVal(string memory _name) public view returns (uint){
         return map[_name];
     }
     function giveString(string memory _name) public view returns (uint, string memory){
         return (map[_name], "hi");
     }
-    function dummy1() public pure returns(uint){
-        return 2;
+    function modSum() public payable returns(uint){
+        sum = sum+3;
+        return sum;
     }
-    function dummy2() public payable returns(uint){
-        return 4;
+    function getSum() public view returns(uint){
+        return sum;
     }
 }

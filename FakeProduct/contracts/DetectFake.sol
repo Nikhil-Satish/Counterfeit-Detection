@@ -29,25 +29,27 @@ contract DetectFake {
         string location;
     }
 
-    mapping (string => product) productList;
-    mapping (string => customer) customerList;
-    mapping (string => retailer) retailerList;
-    /*
-    function createOwner() public {
-        owner = msg.sender;
-    }
+    mapping (uint => product) productList;
+    mapping (uint => customer) customerList;
+    mapping (uint => retailer) retailerList;
 
-    modifier onlyOwner {
-        require(msg.sender == owner);
-        _;
-    }
+    uint public mapLen = 0;
+    uint[15] public nums;
+    uint[] public codeList;
 
-    function whoIsOwner() public view returns (address) {
-        return owner;
+    function getProductCodes() public view returns(uint[] memory){
+        return codeList;
     }
-*/
+    function getNums() public view returns(uint[15] memory){
+        return nums;
+    }
+    function pushNums(uint num) public payable {
+        // return 1;
+        nums[mapLen] = num;
+        mapLen = mapLen+1;
+    }
     // Function to create a new code for the product
-    function makeProduct(string memory _code, string memory _brand, string memory _model, uint _status, string memory _description, string memory _manufacturerName, string memory _manufacturerLocation) public payable returns (uint) {
+    function makeProduct(uint _code, string memory _brand, string memory _model, uint _status, string memory _description, string memory _manufacturerName, string memory _manufacturerLocation) public payable returns (uint) {
         product memory newCode;
         newCode.brand = _brand;
         newCode.model = _model;
@@ -57,43 +59,45 @@ contract DetectFake {
         newCode.manufacturerLocation = _manufacturerLocation;
         // newCode.manufacturerTimestamp = _manufacturerTimestamp;
         productList[_code] = newCode;
+        codeList.push(1022);
+        // mapLen = mapLen+1;
         return 1;
     }
 
     // Function for showing product details if the person scanning the product is not the owner
-    function getNotOwnedCodeDetails(string memory _code) public view returns (string memory, string memory, uint, string memory, string memory, string memory, string memory) {
-        return (productList[_code].brand, productList[_code].model, productList[_code].status, productList[_code].description, productList[_code].manufacturerName, productList[_code].manufacturerLocation, productList[_code].manufacturerTimestamp);
+    function getNotOwnedCodeDetails(uint _code) public view returns (string memory, string memory, uint, string memory, string memory, string memory) {
+        return (productList[_code].brand, productList[_code].model, productList[_code].status, productList[_code].description, productList[_code].manufacturerName, productList[_code].manufacturerLocation);
     }
 
     // Function for showing product details if the person scanning the product is the owner
-    function getOwnedCodeDetails(string memory _code) public view returns (string memory, string memory) {
-        return (retailerList[productList[_code].retailer].name, retailerList[productList[_code].retailer].location);
-    }
+    // function getOwnedCodeDetails(uint _code) public view returns (string memory, string memory) {
+    //     return (retailerList[productList[_code].retailer].name, retailerList[productList[_code].retailer].location);
+    // }
 
     // Function for creating a new retailer
-    function addRetailerToCode(string memory _code, string memory _hashedEmailRetailer) public payable returns (uint) {
+    function addRetailerToCode(uint _code, string memory _hashedEmailRetailer) public payable returns (uint) {
         productList[_code].retailer = _hashedEmailRetailer;
         return 1;
     }
 
     // Function for creating a new customer
-    function createCustomer(string memory _hashedEmail, string memory _name, string memory _phone) public payable returns (bool) {
-        if (customerList[_hashedEmail].isValue) {
-            return false;
-        }
-        customer memory newCustomer;
-        newCustomer.name = _name;
-        newCustomer.phone = _phone;
-        newCustomer.isValue = true;
-        customerList[_hashedEmail] = newCustomer;
-        return true;
-    }
+    // function createCustomer(string memory _hashedEmail, string memory _name, string memory _phone) public payable returns (bool) {
+    //     if (customerList[_hashedEmail].isValue) {
+    //         return false;
+    //     }
+    //     customer memory newCustomer;
+    //     newCustomer.name = _name;
+    //     newCustomer.phone = _phone;
+    //     newCustomer.isValue = true;
+    //     customerList[_hashedEmail] = newCustomer;
+    //     return true;
+    // }
 
-    function getCustomerDetails(string memory _code) public view returns (string memory, string memory) {
+    function getCustomerDetails(uint _code) public view returns (string memory, string memory) {
         return (customerList[_code].name, customerList[_code].phone);
     }
 
-    function createRetailer(string memory _hashedEmail, string memory _retailerName, string memory _retailerLocation) public payable returns (uint) {
+    function createRetailer(uint _hashedEmail, string memory _retailerName, string memory _retailerLocation) public payable returns (uint) {
         retailer memory newRetailer;
         newRetailer.name = _retailerName;
         newRetailer.location = _retailerLocation;
@@ -101,7 +105,7 @@ contract DetectFake {
         return 1;
     }
 
-    function getRetailerDetails(string memory _code) public view returns (string memory, string memory) {
+    function getRetailerDetails(uint _code) public view returns (string memory, string memory) {
         return (retailerList[_code].name, retailerList[_code].location);
     }
 

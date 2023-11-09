@@ -1,4 +1,4 @@
-const Trial = artifacts.require("Trial");
+const DetectFake = artifacts.require("DetectFake");
 module.exports = function (deployer) {
-  deployer.deploy(Trial);
+  deployer.deploy(DetectFake);
 };

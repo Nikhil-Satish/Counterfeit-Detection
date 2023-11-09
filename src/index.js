@@ -6,6 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Manufacturer from './Manufacturer';
 import Retailer from './Retailer';
+import Customer from './Customer';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,9 +19,10 @@ root.render(
           <Route exact path="/manufacturer" element={<Manufacturer />} />
           <Route exact path="/retailer" element={<Retailer />} />
         </Route> */}
-        <Route exact path="/" element={<Retailer />} ></Route>
+        <Route exact path="/" element={<Manufacturer />} ></Route>
         <Route exact path="/manufacturer" element={<Manufacturer />} ></Route>
         <Route exact path="/retailer" element={<Retailer />} ></Route>
+        <Route exact path="/customer" element={<Customer />} ></Route>
       </Routes>
     </BrowserRouter>
 );
