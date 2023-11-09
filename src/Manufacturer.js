@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { QRCodeSVG } from "qrcode.react";
-import Trial from './abi/Trial.json';
 import DetectFake from './abi/DetectFake.json'
 import contractAddress from "./ContractAddress";
 import hashes from "./Hashes";
+import value from "./Value";
 
 const ethers = require("ethers")
 const Manufacturer = () =>{
-    // const web3 = new Web3(Web3.givenProvider);
     const [contract, setContract] = useState(null);
     const [accounts, setAccounts] = useState(null);
 
@@ -29,6 +28,8 @@ const Manufacturer = () =>{
     const [manuName, setManu] = useState('');
     const [productCreated, setProductCreated] = useState(false);
     const [hash, genHash] = useState(0);
+    const [location, setLocation] = useState("");
+    const [desc, setDesc] = useState("");
 
     const inputProduct = (event) =>{
         setProduct(event.target.value);
@@ -42,35 +43,20 @@ const Manufacturer = () =>{
         setManu(event.target.value);
     }
 
+    const inputLocation = (event) =>{
+        setLocation(event.target.value);
+    }
+
+    const addDesciption = (event) =>{
+        setDesc(event.target.value);
+    }
+
     const submitted = async(event) =>{
-        // setManu(event.target.value);
         setProductCreated(true);
-        genHash(hashes[0]);
-        const pro = await contract.makeProduct(hashes[0], brand, "Y", 3, "D", manuName, "L");
-        // const pro = await contract.testExe();
+        genHash(hashes[value]);
+        const pro = await contract.makeProduct(hashes[value], brand, "Model", 3, desc, manuName, location);
         console.log(pro);
-        // const some = await contract.methods.makeProduct(hash, "X", "Y", 3, "D", "MN", "L").call();
     }
-
-    const createHash = () =>{
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let result = '';
-        for (let i = 0; i < 6; i++) {
-            const randomIndex = Math.floor(Math.random() * characters.length);
-            result += characters[randomIndex];
-        }
-        return result;
-    }
-
-    const generateRandom = () => {
-        const min = 1; // Minimum 6-digit number
-        const max = 9; // Maximum 6-digit number
-      
-        const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-      
-        // return randomNumber;
-        return 2;
-      }
 
     return(
         <div  >
@@ -84,13 +70,40 @@ const Manufacturer = () =>{
                 <label> Manufacturer's name: </label>
                 <input type="text"  value={manuName} onChange={inputManu}/>
                 <br />
+                <label> Manufacturer's location: </label>
+                <input type="text"  value={location} onChange={inputLocation}/>
+                <br />
+                <label> Description: </label>
+                <input type="text"  value={desc} onChange={addDesciption}/>
+                <br />
                 <button onClick={submitted}>Submit</button>
             </div>
             {productCreated &&  (
-                <QRCodeSVG  style={{margin:10}} value={hash} />
+                <QRCodeSVG  style={{margin:10}} value={""+hash} />
             )}
         </div>
     )
 }
 
 export default Manufacturer;
+
+
+// const createHash = () =>{
+//     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+//     let result = '';
+//     for (let i = 0; i < 6; i++) {
+//         const randomIndex = Math.floor(Math.random() * characters.length);
+//         result += characters[randomIndex];
+//     }
+//     return result;
+// }
+
+// const generateRandom = () => {
+//     const min = 1; // Minimum 6-digit number
+//     const max = 9; // Maximum 6-digit number
+  
+//     const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+  
+//     // return randomNumber;
+//     return 2;
+//   }

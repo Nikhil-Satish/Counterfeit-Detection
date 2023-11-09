@@ -3,20 +3,16 @@ import Trial from './abi/Trial.json';
 import DetectFake from './abi/DetectFake.json'
 import { QRCodeSVG } from "qrcode.react";
 import contractAddress from "./ContractAddress";
-import { render } from "react-dom";
 import hashes from "./Hashes";
 
 const ethers = require("ethers")
 const Customer = () =>{
     const [contract, setContract] = useState(null);
     const [accounts, setAccounts] = useState(null);
-    const [productCodes, setProCodes] = useState(["1","2"]);
-    const [proAvail, setProAvail] = useState(false);
-    // let prod = [], retail = [];
-    const [prod, setProd] = useState([]);
-    const [retail, setRetail] = useState([]);
-    const [list, setList] = useState([]);
-    let seeList = [];
+
+    const [chain1, setChain1] = useState("");
+    const [chain2, setChain2] = useState("");
+    const [chain3, setChain3] = useState("");
 
     useEffect(() =>{
         const init = async() =>{
@@ -27,86 +23,40 @@ const Customer = () =>{
             setContract(contractInstance);
             setAccounts(accounts);
             console.log("------------------", accounts);
-            // setProCodes([189456]);
-            // setProAvail(true);
         }
         init();
     },[]);
 
-    const getProduct = async() => {
-        const pro = await contract.getProductCodes();
-        console.log(pro);
-        setProCodes([189456]);
-        setProAvail(true);
-    }
-
-    // const QRCodeList = () =>{
-    //     productCodes.map(function(hash, index){
-    //         <QRCodeSVG  style={{margin:10}} value={hash} />
-    //         // return <p>Hi</p>
-    //     })
-    // }
-
     const QRCodeList = () =>{
-        // setList([1,2])
-        // let lis = []
-        // let check = productCodes.map((hash) =>(
-        //     // <QRCodeSVG  style={{margin:10}} value={hash} />
-        //     // <li key={index} >Hi</li>
-        //     // seeList.push(<li >Hi</li>)
-        //     <li>Hi</li>
-        // ))
-        // setList(check);
-        // console.log(check);
-        // return (
-        //     <p>Hi</p>
-        // )
-        const arrayDataItems = hashes.map((hash) => <QRCodeSVG  style={{margin:10}} value={"Hi"+hash} />);
+        const arrayDataItems = hashes.map((hash,index) => <QRCodeSVG  style={{margin:10}} value={index == 0?chain1:(index == 1?chain2:chain3)} />);
         return (
             <div>
-                {/* <ul>{arrayDataItems}</ul> */}
                 {arrayDataItems}
             </div>
         );
     }
 
     const productDetails = async(hash) =>{
-        const pro = await contract.getNotOwnedCodeDetails(1234);
+        const pro = await contract.getNotOwnedCodeDetails(hashes[0]);
         console.log(pro);
-        // return pro;
     }
 
-    const retailerDetails = async(hash) =>{
-        const retailer = await contract.getRetailerDetails(hash);
-        // console.log(retailer);
-        return retailer;
+    const fetchDetails = async() =>{
+        const pro1 = await contract.getNotOwnedCodeDetails(hashes[0]);
+        const pro2 = await contract.getNotOwnedCodeDetails(hashes[1]);
+        const pro3 = await contract.getNotOwnedCodeDetails(hashes[2]);
+        const retail1 = await contract.getRetailerDetails(hashes[0]);
+        const retail2 = await contract.getRetailerDetails(hashes[1]);
+        const retail3 = await contract.getRetailerDetails(hashes[2]);
+        setChain1("Manufacturer name: "+pro1[4]+"\nManufacturer Location:"+pro1[5]+"\nRetailer name: "+retail1[0]+"\nRetailer location: "+retail1[1]);
+        setChain2("Manufacturer name: "+pro2[4]+"\nManufacturer Location:"+pro2[5]+"\nRetailer name: "+retail2[0]+"\nRetailer location: "+retail2[1]);
+        setChain3("Manufacturer name: "+pro3[4]+"\nManufacturer Location:"+pro3[5]+"\nRetailer name: "+retail3[0]+"\nRetailer location: "+retail3[1]);
     }
 
     return(
         <div>
-            {/* {
-                proAvail &&
-                productCodes.forEach(async(hash)=>{
-                    prod = await productDetails(hash);
-                    console.log(prod);
-                    setProd(prod);
-                    retail = await retailerDetails(hash);
-                    console.log(retail);
-                    setRetail(retail);
-                }) 
-            } */}
-            {/* {
-                productCodes.map(function(hash, index){
-                    return <QRCodeSVG  style={{margin:10}} value={hash} />
-                })
-            } */}
-            {/* {QRCodeList} */}
-            {/* {QRCodeList } */}
             <QRCodeList/>
-            {/* <button onClick={addRetailer}>Add retailer</button> */}
-            {/* <productDetails/> */}
-            {/* <QRCodeSVG  style={{margin:10}} value="1" /> */}
-
+            <button onClick={fetchDetails}>Get details</button>
         </div>
     );
 }
